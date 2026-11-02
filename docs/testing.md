@@ -39,3 +39,15 @@ Verification outputs are generated under `.qa/` or `.renders/`, excluded from Gi
 `verify:voice` accepts `KOTONOHA_FFMPEG` and `KOTONOHA_FFPROBE` paths when the binaries are not on PATH. HTTP checks default to the local API/editor; set `APP_URL` if needed. Regenerate the README images with `npm run render:demo` (Chrome required); this overwrites only `docs/assets/vertical.png` and `bilingual.png` with frames from the public demo.
 
 The GitHub Actions workflow runs the model-free checks on Ubuntu. That verifies portable core logic and the frontend build; it does not establish MLX support on Linux or validate Mac rendering performance.
+
+## Public-source verification: 2026-11-02
+
+Verified from a separate, fresh Git clone on macOS / Apple Silicon with Node.js 22.21.1:
+
+- `npm ci`, all 72 unit tests, the three model-free component checks above, and the production build passed.
+- Each component check also passed after deleting its generated `.qa/` directory from the temporary clone.
+- `render:smoke` produced a two-second 1920×1080, 30 fps H.264 / AAC MP4; ffprobe confirmed the streams.
+- `verify:bilingual` rendered the public demo and checked page capacity, preserved timings and restored vertical pages.
+- The production server served the built editor and its assets. `verify:voice` passed with real FFmpeg, covering 200% gain, 400% limiting, timing, preview cleanup and MP4 audio output.
+
+No new AI models were downloaded for these checks, and real translation/alignment inference was not rerun as part of packaging. GitHub Actions has not been run remotely before upload. The build succeeds with a bundle-size warning; component checks emit the react-test-renderer deprecation notice mentioned above.
