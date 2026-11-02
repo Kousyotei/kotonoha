@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { act, create, type ReactTestRenderer } from "react-test-renderer";
 import assert from "node:assert/strict";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { IDBFactory, IDBObjectStore } from "fake-indexeddb";
 import { initialProject, parseProject, type Project } from "../src/model";
@@ -106,6 +106,7 @@ try {
   assert.equal(draft, pendingDraft);
   assert.equal(project.voice!.src, sample.voice.src);
   assert.equal(project.music!.src, sample.music.src);
+  await mkdir(".qa", { recursive: true });
   await writeFile(".qa/persistence-component-check.json", JSON.stringify({
     passed: true, audioFile, audioBytes: audioBytes.length, sha256: digest(restoredBytes),
     reloadByRemount: true, bothAudioTracksPreserved: true, unsavedDraftPreserved: true,

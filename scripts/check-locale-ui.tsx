@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { act, create, type ReactTestRenderer } from "react-test-renderer";
 import assert from "node:assert/strict";
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { I18nProvider, LanguageSelect, useI18n } from "../src/i18n";
 import { LANGUAGE_KEY } from "../src/locale";
 import { TranslationPanel } from "../src/TranslationPanel";
@@ -90,6 +90,7 @@ try {
   assert.equal(document.documentElement.lang, "zh-CN");
   await switchTo("ja"); assert.equal(values.get(LANGUAGE_KEY), "ja");
   assert.deepEqual(project, before);
+  await mkdir(".qa", { recursive: true });
   await writeFile(".qa/locale-ui-check.json", JSON.stringify({ passed: true, defaultJapanese: true,
     chineseSwitch: true, rememberedAfterRemount: true, documentLanguageAndTitle: true,
     draftAndProjectUnchanged: true, translationPreviewPreserved: true, redundantCopyRemoved: true,

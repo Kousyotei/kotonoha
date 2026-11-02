@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { act, create, type ReactTestRenderer } from "react-test-renderer";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { initialProject, rebuild, parseProject, type Media } from "../src/model";
 import { useVoicePreview } from "../src/use-voice-preview";
 import { VoiceEnhance } from "../src/VoiceEnhance";
 import { I18nProvider } from "../src/i18n";
-const base = "http://127.0.0.1:3001", rate = 48000, seconds = 3.2;
+const base = process.env.APP_URL || "http://127.0.0.1:3001", rate = 48000, seconds = 3.2;
+const ffmpeg = process.env.KOTONOHA_FFMPEG || "ffmpeg";
+const ffprobe = process.env.KOTONOHA_FFPROBE || "ffprobe";
 function wav(amplitude: number, pulse = false) {
   const count = Math.round(rate * seconds), buffer = Buffer.alloc(44 + count * 2);
   buffer.write("RIFF"); buffer.writeUInt32LE(36 + count * 2, 4); buffer.write("WAVEfmt ", 8);
@@ -30,7 +32,8 @@ async function prepare(voice: Media, gain: number, name: string) {
   const bytes = Buffer.from(await response.arrayBuffer()); await writeFile(name, bytes); return name;
 }
 function samples(file: string) {
-  const output = spawnSync("/opt/homebrew/bin/ffmpeg", ["-v", "error", "-i", file, "-vn", "-ac", "1", "-ar", String(rate), "-c:a", "pcm_f32le", "-f", "f32le", "pipe:1"], { maxBuffer: 100 * 1024 * 1024 });
+  const output = spawnSync(ffmpeg, ["-v", "error", "-i", file, "-vn", "-ac", "1", "-ar", String(rate), "-c:a", "pcm_f32le", "-f", "f32le", "pipe:1"], { maxBuffer: 100 * 1024 * 1024 });
+  if (output.error) throw output.error;
   if (output.status !== 0) throw Error(output.stderr.toString());
   return Array.from({ length: output.stdout.length / 4 }, (_, i) => output.stdout.readFloatLE(i * 4));
 }
@@ -40,6 +43,7 @@ function stats(values: number[]) {
     peak: values.reduce((peak, value) => Math.max(peak, Math.abs(value)), 0) };
 }
 const quiet = media(wav(0.025));
+await mkdir(".qa", { recursive: true });
 await writeFile(".qa/voice-original.wav", wav(0.025));
 const boosted = await prepare(quiet, 2, ".qa/voice-200.m4a");
 const originalStats = stats(samples(".qa/voice-original.wav")), boostedStats = stats(samples(boosted));
@@ -115,7 +119,8 @@ while (Date.now() < deadline) {
 assert.equal(exported, true);
 const exportStats = stats(samples(".qa/voice-export.mp4"));
 assert.ok(Math.abs(exportStats.rms / boostedStats.rms - 1) < 0.03);
-const probe = spawnSync("/opt/homebrew/bin/ffprobe", ["-v", "error", "-show_entries", "stream=codec_name,width,height,r_frame_rate:format=duration", "-of", "json", ".qa/voice-export.mp4"], { encoding: "utf8" });
+const probe = spawnSync(ffprobe, ["-v", "error", "-show_entries", "stream=codec_name,width,height,r_frame_rate:format=duration", "-of", "json", ".qa/voice-export.mp4"], { encoding: "utf8" });
+if (probe.error) throw probe.error;
 assert.equal(probe.status, 0);
 const info = JSON.parse(probe.stdout);
 assert.ok(info.streams.some((stream: any) => stream.width === 1920 && stream.height === 1080 && stream.codec_name === "h264"));

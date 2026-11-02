@@ -1,6 +1,6 @@
 # 言の葉 · 日语朗读工作室
 
-[日本語](README.md) · [架构](docs/architecture.md) · [模型评估](docs/evaluation.md) · [测试](docs/testing.md)
+[日本語](README.md) · [架构](docs/architecture.md) · [模型评估](docs/evaluation.md) · [测试](docs/testing.md) · [上传 GitHub](docs/publishing.zh-CN.md)
 
 在本机把日语文章和朗读录音制作成带注音、中文译文和逐句高亮的视频。技术栈为 React、TypeScript、Remotion、Express 与 Python；本地模型结果先预览、人工修正，再选择采用。
 

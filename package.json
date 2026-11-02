@@ -9,6 +9,7 @@
     "test": "tsx --test tests/*.test.ts",
     "start": "NODE_ENV=production tsx server/index.ts",
     "render:smoke": "tsx scripts/render-smoke.ts",
+    "render:demo": "tsx scripts/render-demo.ts",
     "verify:export": "tsx scripts/check-export.ts",
     "setup:alignment": "node scripts/setup-alignment.mjs",
     "test:alignment": ".venv-align/bin/python -m unittest discover -s python -p \"test_*.py\"",

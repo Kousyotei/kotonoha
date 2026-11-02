@@ -17,7 +17,7 @@ These commands do not download ML models or require personal recordings. The sto
 npm run verify:storage -- path/to/project.kotonoha.json
 ```
 
-The Node component checks use react-test-renderer, fake-indexeddb and explicit I/O fixtures. They do not claim desktop-browser coverage. `react-test-renderer` currently emits a deprecation notice.
+Each verification script creates its output directory; an existing `.qa/` directory is not required. The Node component checks use react-test-renderer, fake-indexeddb and explicit I/O fixtures. They do not claim desktop-browser coverage. `react-test-renderer` currently emits a deprecation notice.
 
 ## Media and AI checks
 
@@ -26,7 +26,7 @@ On the supported Mac, start `npm run dev` in another terminal:
 | Command | Requirements | Check |
 | --- | --- | --- |
 | `npm run render:smoke` | Chrome or Remotion browser download | Two-second 1080p MP4 with generated mixed test tones |
-| `npm run verify:voice` | Complete FFmpeg; local API | Gain, limiting, timing and actual MP4 audio |
+| `npm run verify:voice` | Complete FFmpeg and ffprobe on PATH; local API | Gain, limiting, timing and actual MP4 audio |
 | `npm run verify:bilingual` | Chrome | Paired layout and page-capacity images from the original demo |
 | `npm run verify:furigana` | Local API; first dictionary download | Generation, manual correction preservation and ruby images |
 | `npm run verify:translation` | Prepared translation model; API | Real inference, sentence mapping, apply/save/undo/cancel |
@@ -35,5 +35,7 @@ On the supported Mac, start `npm run dev` in another terminal:
 | `npm run verify:export -- path/to/project.kotonoha.json` | Chrome; API | Full render/download, dimensions, duration and non-silent audio |
 
 Verification outputs are generated under `.qa/` or `.renders/`, excluded from Git. Use `.models/` setup scripts for weights; no model weights, personal audio or personal project exports are distributed.
+
+`verify:voice` accepts `KOTONOHA_FFMPEG` and `KOTONOHA_FFPROBE` paths when the binaries are not on PATH. HTTP checks default to the local API/editor; set `APP_URL` if needed. Regenerate the README images with `npm run render:demo` (Chrome required); this overwrites only `docs/assets/vertical.png` and `bilingual.png` with frames from the public demo.
 
 The GitHub Actions workflow runs the model-free checks on Ubuntu. That verifies portable core logic and the frontend build; it does not establish MLX support on Linux or validate Mac rendering performance.

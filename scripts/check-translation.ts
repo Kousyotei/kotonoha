@@ -1,8 +1,8 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { initialProject, parseProject } from "../src/model";
 import { translationInputs, validateTranslationResult, applyTranslations, undoTranslations } from "../src/translation";
-const base = "http://127.0.0.1:3001", endpoint = base + "/api/translation";
+const base = process.env.APP_URL || "http://127.0.0.1:3001", endpoint = base + "/api/translation";
 const filename = process.argv[2];
 const project = filename ? parseProject(JSON.parse(await readFile(filename, "utf8"))) : structuredClone(initialProject);
 async function start(path: string, body?: unknown) {
@@ -41,6 +41,7 @@ for (const body of [{}, { sentences: [] }, { sentences: [inputs[0], inputs[0]] }
 const cancelId = await start("", { sentences: inputs });
 assert.equal((await fetch(endpoint + "/" + cancelId + "/cancel", { method: "POST" })).ok, true);
 assert.equal((await wait(cancelId)).status, "cancelled");
+await mkdir(".qa", { recursive: true });
 await writeFile(".qa/translation-result.json", JSON.stringify(result, null, 2));
 await writeFile(".qa/translation-project.kotonoha.json", JSON.stringify(applied.project, null, 2));
 console.log(JSON.stringify({ ok: true, count: result.items.length, model: result.model,

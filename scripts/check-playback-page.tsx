@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { act, create, type ReactTestRenderer } from "react-test-renderer";
 import assert from "node:assert/strict";
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { initialProject, rebuild, type Project } from "../src/model";
 import { usePlaybackPage } from "../src/use-playback-page";
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
@@ -37,6 +37,7 @@ try {
   await act(async () => { playing(true); }); assert.equal(selected, 0);
   await act(async () => { playing(false); frame(100); }); assert.equal(selected, 1);
   assert.deepEqual(sample, snapshot);
+  await mkdir(".qa", { recursive: true });
   await writeFile(".qa/playback-page-check.json", JSON.stringify({ passed: true,
     forward: true, backward: true, earlyPageSwitch: true, pausedSeek: true,
     pausedEditingPreserved: true, resumeFollows: true, projectDataUnchanged: true,

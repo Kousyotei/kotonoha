@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { act, create, type ReactTestRenderer } from "react-test-renderer";
 import assert from "node:assert/strict";
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { TranslationPanel } from "../src/TranslationPanel";
 import { I18nProvider } from "../src/i18n";
 import { initialProject, parseProject, type Project } from "../src/model";
@@ -10,7 +10,8 @@ import { applyTranslations, canUndoTranslation, undoTranslations, type Translati
 // This is a component test; it does not automate the user's browser.
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
 const originalFetch = globalThis.fetch;
-globalThis.fetch = (input, options) => originalFetch(typeof input === "string" && input.startsWith("/") ? `http://127.0.0.1:3001${input}` : input, options);
+const base = process.env.APP_URL || "http://127.0.0.1:3001";
+globalThis.fetch = (input, options) => originalFetch(typeof input === "string" && input.startsWith("/") ? `${base}${input}` : input, options);
 let current: Project = structuredClone(initialProject);
 let update: React.Dispatch<React.SetStateAction<Project>>;
 function Harness() {
@@ -46,6 +47,7 @@ try {
   assert.equal(current.sentences[1].translation, "人工校对：保留当前中文修改。");
   assert.deepEqual(current.sentences.filter((_, i) => i !== 1), initialProject.sentences.filter((_, i) => i !== 1));
   assert.deepEqual(parseProject(JSON.parse(JSON.stringify(current))), current);
+  await mkdir(".qa", { recursive: true });
   await writeFile(".qa/translation-component.kotonoha.json", JSON.stringify(current, null, 2));
   await act(async () => { button("撤销本次采用").props.onClick(); });
   assert.deepEqual(current, initialProject);
