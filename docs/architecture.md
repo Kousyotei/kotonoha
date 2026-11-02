@@ -1,6 +1,6 @@
 # Architecture
 
-Kotonoha Studio is a local-first Japanese reading-video editor. AI outputs are editable proposals; project data remains the source of truth.
+Kotonoha is a local-first Japanese reading-video editor. AI outputs are editable proposals; project data remains the source of truth.
 
 ```mermaid
 flowchart LR

@@ -1,4 +1,4 @@
-# 言の葉 · Kotonoha Studio
+# 言の葉 · Kotonoha
 
 [中文](README.zh-CN.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Testing](docs/testing.md)
 
