@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "title": "雨上がりの手紙",
+  "text": "雨が上がると、窓の向こうに小さな虹が見えた。\n\n私は机の上の手紙を開き、ゆっくりと声に出して読んだ。\n\n「新しい場所でも、自分の歩幅で進んでください。」\n\n遠くにいる友達の言葉が、静かな部屋に温かく響いた。\n\n私は白い紙に今日の景色を書き、返事を封筒に入れた。\n\n明日の朝、この手紙を駅前のポストに届けよう。",
+  "sentences": [
+    {
+      "id": "c14f8cae-5e07-4219-9947-461207599057",
+      "text": "雨が上がると、窓の向こうに小さな虹が見えた。",
+      "translation": "雨停后，窗外出现了一道小小的彩虹。",
+      "note": "",
+      "start": 0,
+      "end": 5.5,
+      "timingSource": "estimate"
+    },
+    {
+      "id": "a13892f4-564d-411a-a7d2-e07c002c3850",
+      "text": "私は机の上の手紙を開き、ゆっくりと声に出して読んだ。",
+      "translation": "我打开桌上的信，慢慢地读出声来。",
+      "note": "",
+      "start": 5.5,
+      "end": 12,
+      "timingSource": "estimate"
+    },
+    {
+      "id": "82a146f8-1912-4cbc-8634-c87db47c0576",
+      "text": "「新しい場所でも、自分の歩幅で進んでください。」",
+      "translation": "“即使到了新的地方，也请按自己的步调前进。”",
+      "note": "",
+      "start": 12,
+      "end": 18,
+      "timingSource": "estimate"
+    },
+    {
+      "id": "ed2344ff-8910-4ad3-9d42-ea256575cee6",
+      "text": "遠くにいる友達の言葉が、静かな部屋に温かく響いた。",
+      "translation": "远方朋友的话语，温暖地回响在安静的房间里。",
+      "note": "",
+      "start": 18,
+      "end": 24.25,
+      "timingSource": "estimate"
+    },
+    {
+      "id": "c5d3f5f7-544e-4936-b542-659edeb2d5bd",
+      "text": "私は白い紙に今日の景色を書き、返事を封筒に入れた。",
+      "translation": "我在白纸上写下今天的景色，把回信装进信封。",
+      "note": "",
+      "start": 24.25,
+      "end": 30.5,
+      "timingSource": "estimate"
+    },
+    {
+      "id": "c5cd6c2c-c625-464f-8983-4f250e18ba8a",
+      "text": "明日の朝、この手紙を駅前のポストに届けよう。",
+      "translation": "明天早上，把这封信投进车站前的邮筒吧。",
+      "note": "",
+      "start": 30.5,
+      "end": 36,
+      "timingSource": "estimate"
+    }
+  ],
+  "pages": [
+    {
+      "id": "3ee57395-5934-43c9-8ab6-323693c171a7",
+      "start": 0,
+      "sentenceIds": [
+        "c14f8cae-5e07-4219-9947-461207599057",
+        "a13892f4-564d-411a-a7d2-e07c002c3850",
+        "82a146f8-1912-4cbc-8634-c87db47c0576",
+        "ed2344ff-8910-4ad3-9d42-ea256575cee6",
+        "c5d3f5f7-544e-4936-b542-659edeb2d5bd",
+        "c5cd6c2c-c625-464f-8983-4f250e18ba8a"
+      ]
+    }
+  ],
+  "style": {
+    "background": "#f3efe5",
+    "ink": "#343e38",
+    "highlight": "#a54935",
+    "fontSize": 52,
+    "lineHeight": 1.8,
+    "fontFamily": "\"Yu Mincho\", \"Hiragino Mincho ProN\", serif",
+    "showTranslation": true,
+    "showNotes": false
+  },
+  "voice": null,
+  "music": null,
+  "voiceVolume": 1,
+  "musicVolume": 0.15
+}

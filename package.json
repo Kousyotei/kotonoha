@@ -1,0 +1,63 @@
+{
+  "name": "kotonoha-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"tsx server/index.ts\" \"vite --host 127.0.0.1\"",
+    "build": "tsc --noEmit && vite build",
+    "test": "tsx --test tests/*.test.ts",
+    "start": "NODE_ENV=production tsx server/index.ts",
+    "render:smoke": "tsx scripts/render-smoke.ts",
+    "verify:export": "tsx scripts/check-export.ts",
+    "setup:alignment": "node scripts/setup-alignment.mjs",
+    "test:alignment": ".venv-align/bin/python -m unittest discover -s python -p \"test_*.py\"",
+    "verify:alignment": "tsx scripts/check-alignment.ts",
+    "setup:furigana": "tsx scripts/setup-furigana.ts",
+    "update:furigana": "tsx scripts/setup-furigana.ts --update",
+    "verify:furigana": "tsx scripts/check-furigana.ts",
+    "verify:bilingual": "tsx scripts/check-bilingual.ts",
+    "setup:translation": "tsx scripts/setup-translation.ts",
+    "verify:translation": "tsx scripts/check-translation.ts",
+    "verify:translation-ui": "tsx scripts/check-translation-ui.tsx",
+    "verify:storage": "tsx scripts/check-project-storage.tsx",
+    "verify:voice": "tsx scripts/check-voice.tsx",
+    "verify:playback-page": "tsx scripts/check-playback-page.tsx",
+    "verify:locale": "tsx scripts/check-locale-ui.tsx"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/player": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "express": "5.1.0",
+    "htmlparser2": "10.0.0",
+    "kuroshiro": "1.2.1",
+    "kuroshiro-analyzer-kuromoji": "1.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.539",
+    "saxes": "6.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/react-test-renderer": "19.1.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.1.2",
+    "fake-indexeddb": "6.2.7",
+    "react-test-renderer": "19.1.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "overrides": {
+    "zod": "^4.6.6"
+  },
+  "description": "Local-first Japanese reading video editor with human-reviewed AI assistance",
+  "engines": {
+    "node": ">=22"
+  }
+}
